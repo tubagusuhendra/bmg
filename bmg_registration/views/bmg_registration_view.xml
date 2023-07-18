@@ -22,10 +22,10 @@
                 </div>
                 <group>
                     <group>
-                        <field name="first_name" attrs="{'required':[('state', '=', 'draft')]}" />
-                        <field name="last_name" attrs="{'required':[('state', '=', 'draft')]}" />
-                        <field name="gender" widget="radio" attrs="{'required':[('state', '=', 'draft')]}" />
-                        <field name="address" attrs="{'required':[('state', '=', 'draft')]}" placeholder="Address ..."/>
+                        <field name="first_name" attrs="{'required':[('state', '=', 'draft')],'readonly':[('state', '!=', 'draft')]}" />
+                        <field name="last_name" attrs="{'required':[('state', '=', 'draft')],'readonly':[('state', '!=', 'draft')]}" />
+                        <field name="gender" widget="radio" attrs="{'required':[('state', '=', 'draft')],'readonly':[('state', '!=', 'draft')]}" />
+                        <field name="address" attrs="{'required':[('state', '=', 'draft')],'readonly':[('state', '!=', 'draft')]}" placeholder="Address ..."/>
                     </group>
                 </group>
            </sheet>
