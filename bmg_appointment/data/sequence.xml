@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="bmg_appointment_seq" model="ir.sequence">
+            <field name="name">BMG appointment</field>
+            <field name="code">bmg.appointment.seq</field>
+            <field name="prefix">X-CONSULT-%(day)s-%(month)s-%(range_year)s- </field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field name="padding">8</field>
+            <field name="use_date_range" eval="True"/>
+        </record>
+    </data>
+</odoo>

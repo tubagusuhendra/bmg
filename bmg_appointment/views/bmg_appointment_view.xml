@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="appointment" id="appointment_root" sequence="30" />
+    <menuitem name="appointment" id="appointment_main_menu" parent="appointment_root" sequence="30" />
+    <record id="bmg_appointment_form" model="ir.ui.view">
+        <field name="name">bmg.appointment.form</field>
+        <field name="model">bmg.appointment</field>
+        <field name="arch" type="xml">
+            <form string="appointment" class="o_bmg_appointment">
+            <header>
+                <button name="action_confirm" states="new" type="object" string="Confirm" class="oe_highlight" />
+                <button name="set_to_draft" states="cancel" string="Set To Draft" type="object"  class="oe_highlight" />
+                <field name="state" widget="statusbar" statusbar_visible="new,cancel" readonly="1"/>
+            </header>
+            <sheet>
+                <div class="oe_title">
+                    <span class="o_form_label" >Appointment Form </span>
+                    <h1>
+                        <field name="appointment_sequence" readonly="1" />
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="appointment_name" required="1" attrs="{'readonly':[('state', '!=', 'new')]}" />
+                        <field name="date_appointment" required="1" attrs="{'readonly':[('state', '!=', 'new')]}" />
+                        <field name="time_appointment" widget="float_time" required="1" attrs="{'readonly':[('state', '!=', 'new')]}" />
+                        <field name="duration_appoinment" />
+                        <field name="private_appointment" />
+                        <field name="appointment_type" required="1" />
+                    </group>
+                    <group>
+                        <field name="company_name" attrs="{'invisible':[('appointment_type', '!=', 'person')]}" />
+                        <field name="company_contacts" attrs="{'invisible':[('appointment_type', '!=', 'person')]}" />
+                        <field name="company_phone" attrs="{'invisible':[('appointment_type', '!=', 'person')]}" />
+                        <field name="company_email" attrs="{'invisible':[('appointment_type', '!=', 'person')]}" />
+                        <field name="person_name" attrs="{'required':[('appointment_type', '=', 'person')],'invisible':[('appointment_type', '!=', 'person')]}" />
+                        <field name="person_contacts" attrs="{'invisible':[('appointment_type', '!=', 'person')]}" />
+                        <field name="person_phone" attrs="{'invisible':[('appointment_type', '!=', 'person')]}" />
+                        <field name="person_email" attrs="{'invisible':[('appointment_type', '!=', 'person')]}" />
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Client User List">
+                        <field name="client_ids">
+                        </field>
+                        <field name="descriptions" class="oe_inline" placeholder="Define your terms and conditions ..."/>
+                        <div class="oe_clear"/>
+                    </page>
+                </notebook>
+           </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_bmg_appointment_filter" model="ir.ui.view">
+        <field name="name">request.quotation.select</field>
+        <field name="model">bmg.appointment</field>
+        <field name="arch" type="xml">
+            <search string="Search appointment">
+                <field name="appointment_sequence" string="Document Order"/>
+                <separator/>	                    
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="bmg_appointment_tree" model="ir.ui.view">
+        <field name="name">bmg.appointment.tree</field>
+        <field name="model">bmg.appointment</field>
+        <field name="arch" type="xml">
+            <tree string="appointment" >
+                <field name="appointment_sequence" string = "Document Number"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="bmg_appointment_view_activity" model="ir.ui.view">
+        <field name="name">bmg.appointment.activity</field>
+        <field name="model">bmg.appointment</field>
+        <field name="arch" type="xml">
+            <activity string="appointment">
+                <templates>
+                    <div t-name="activity-box">
+                        <div>
+                            <field name="appointment_sequence" display="full"/>
+                            <field name="appointment_name" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <record id="bmg_appointment_action_generic" model="ir.actions.act_window">
+        <field name="name">appointment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bmg.appointment</field>
+        <field name="domain">[]</field>
+        <field name="view_id" ref="bmg_appointment_form"/>
+    </record>
+
+    <record id="action_bmg_appointment" model="ir.actions.act_window">
+        <field name="name">Appointment Form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bmg.appointment</field>
+        <field name="view_mode">tree,form,activity</field>
+        <field name="view_id" ref="bmg_appointment_tree"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="view_bmg_appointment_filter"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a appointment
+            </p><p>
+            </p>
+        </field>
+    </record>
+    <menuitem
+        id="menu_action_bmg_appointment"
+        action="action_bmg_appointment"
+        sequence="1"
+        parent="appointment_main_menu"
+    />
+</odoo>
